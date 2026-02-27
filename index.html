@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BucketsAI Partner Program — Earn Recurring Commissions</title>
+  <meta name="description" content="Join the BucketsAI partner program. Earn recurring commissions by connecting businesses with AI decision infrastructure. No selling required.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%234F6BFF'/><text x='16' y='22' font-size='18' font-weight='bold' text-anchor='middle' fill='white'>B</text></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- React 18 -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#4F6BFF', dark: '#3A52E0', light: '#E8ECFF', 50: '#F0F3FF' },
+            navy: { DEFAULT: '#0F1629', light: '#1A2840', 800: '#141D35' },
+            surface: '#F5F7FA',
+            'text-dark': '#1A1A2E',
+            'text-gray': '#6B7280',
+            success: '#10B981',
+          },
+          fontFamily: {
+            display: ['"Plus Jakarta Sans"', 'sans-serif'],
+            body: ['"DM Sans"', 'sans-serif'],
+            mono: ['"Space Mono"', 'monospace'],
+          },
+          boxShadow: {
+            'card': '0 1px 3px rgba(79,107,255,0.05), 0 6px 20px rgba(79,107,255,0.07)',
+            'card-hover': '0 4px 12px rgba(79,107,255,0.1), 0 16px 40px rgba(79,107,255,0.12)',
+            'glow': '0 0 30px rgba(79,107,255,0.2)',
+            'btn': '0 2px 12px rgba(79,107,255,0.35)',
+            'btn-hover': '0 4px 20px rgba(79,107,255,0.5)',
+          },
+          letterSpacing: {
+            'tight-heading': '-0.03em',
+          },
+          lineHeight: {
+            'body': '1.7',
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; }
+
+    /* Grain texture overlay */
+    .grain::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px;
+    }
+
+    /* Float animation for hero nodes */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .animate-float { animation: float 4s ease-in-out infinite; }
+
+    /* Pulse for connecting lines */
+    @keyframes linePulse {
+      0%, 100% { opacity: 0.12; }
+      50% { opacity: 0.25; }
+    }
+    .animate-line-pulse { animation: linePulse 3s ease-in-out infinite; }
+
+    /* Bar grow */
+    @keyframes barGrow {
+      from { transform: scaleY(0); }
+      to { transform: scaleY(1); }
+    }
+    .bar-animate {
+      transform-origin: bottom;
+      animation: barGrow 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    /* Slider custom styles */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 6px;
+      border-radius: 3px;
+      background: #E8ECFF;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #4F6BFF;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(79,107,255,0.4);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+      box-shadow: 0 2px 12px rgba(79,107,255,0.6);
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #4F6BFF;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 8px rgba(79,107,255,0.4);
+    }
+
+    /* Toggle switch */
+    .toggle-track {
+      transition: background-color 0.2s ease;
+    }
+    .toggle-thumb {
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* Focus-visible */
+    *:focus-visible {
+      outline: 2px solid #4F6BFF;
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body class="font-body text-text-dark antialiased bg-white">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef, useCallback, createContext, useContext, useMemo } = React;
+
+    /* =========================================================
+       TRANSLATIONS (ES default, EN secondary)
+       ========================================================= */
+    const T = {
+      es: {
+        nav: {
+          program: 'Programa',
+          commissions: 'Comisiones',
+          resources: 'Recursos',
+          support: 'Soporte AI',
+          cta: 'Quiero ser Partner',
+        },
+        hero: {
+          headline: 'Conecta. Gana. Repite.',
+          sub: '\u00danete al programa de partners de BucketsAI y gana comisiones recurrentes conectando empresas con la infraestructura de decisiones AI que necesitan. Sin vender \u2014 solo presentaciones.',
+          cta1: 'Aplicar al Programa',
+          cta2: 'Calcular Mis Ganancias \u2192',
+        },
+        how: {
+          title: '\u00bfC\u00f3mo Funciona?',
+          step1t: 'Conecta',
+          step1d: 'Presenta una empresa de tu red a BucketsAI',
+          step2t: 'Nosotros Cerramos',
+          step2d: 'Nuestro equipo maneja el demo, onboarding y la venta',
+          step3t: 'T\u00fa Ganas',
+          step3d: 'Recibe comisiones recurrentes cada mes',
+          note: 'Tus primeros 2\u20133 deals se co-venden con nuestro equipo. Luego escalas de forma independiente.',
+        },
+        what: {
+          title: 'Lo Que Est\u00e1s Conectando',
+          desc: 'BucketsAI convierte los documentos, pol\u00edticas y reglas comerciales de una empresa en un asistente AI privado para sus equipos. Piensa en el ChatGPT interno para empresas reguladas \u2014 seguro, gobernado y trazable.',
+          video: 'Ver Resumen del Producto (2 min)',
+          demo: 'Probar Demo en Vivo \u2192',
+          videoSoon: 'Video pr\u00f3ximamente',
+        },
+        industries: {
+          title: 'Donde Tu Red Se Convierte en Ingresos',
+          foot: 'Si tus contactos venden productos o servicios basados en reglas, BucketsAI encaja.',
+          banking: 'Banca y Cooperativas',
+          bankingD: 'Los asesores reciben recomendaciones en tiempo real basadas en reglas internas',
+          insurance: 'Seguros',
+          insuranceD: 'Los agentes reciben sugerencias gobernadas con elegibilidad y exclusiones',
+          telco: 'Telco y Suscripciones',
+          telcoD: 'L\u00f3gica de precios compleja se vuelve f\u00e1cil para los reps de ventas',
+          bpo: 'BPO y Outsourcing',
+          bpoD: 'Gestiona las reglas de m\u00faltiples clientes sin confusi\u00f3n',
+          retail: 'Cadenas de Retail',
+          retailD: 'Gu\u00eda a miles de empleados de primera l\u00ednea con respuestas en tiempo real',
+          health: 'Salud y Farmac\u00e9utica',
+          healthD: 'Representantes m\u00e9dicos acceden a mensajes aprobados de productos al instante',
+        },
+        calc: {
+          title: 'Mira Lo Que Podr\u00edas Ganar',
+          sub: 'Selecciona un plan, elige tu modelo de comisi\u00f3n y ve tus ingresos proyectados.',
+          step1: 'Paso 1: Elige un Plan',
+          step2: 'Paso 2: Tipo de Facturaci\u00f3n',
+          step3: 'Paso 3: Modelo de Comisi\u00f3n',
+          step4: 'Paso 4: \u00bfCu\u00e1ntos clientes puedes conectar?',
+          monthly: 'Mensual',
+          annual: 'Anual',
+          clients: 'clientes',
+          totalEarnings: 'Ganancias Totales',
+          overPeriod: 'durante el periodo de comisi\u00f3n',
+          perClient: 'Por cliente',
+          perMonth: 'por mes',
+          monthlyBreak: 'Desglose Mensual',
+          bestFor: 'Mejor para',
+          mo: 'Mes',
+          team: 'Team',
+          department: 'Department',
+          company: 'Company',
+          modA: 'Primera Factura',
+          modAd: '100% de la primera factura',
+          modB: '50% \u00d7 3 Meses',
+          modBd: '50% mensual por 3 meses',
+          modC: '30% \u00d7 6 Meses',
+          modCd: '30% mensual por 6 meses',
+          modD1: '10% Recurrente',
+          modD1d: '10% mensual por 12 meses',
+          modD2: '12% Comprometido',
+          modD2d: '12% mensual (contrato 12 meses)',
+          modD3: '15% Anual Lump Sum',
+          modD3d: '15% del total anual, pago \u00fanico',
+          bestA: 'Efectivo r\u00e1pido',
+          bestB: 'Ciclos cortos',
+          bestC: 'Enfoque balanceado',
+          bestD1: 'Ingreso estable',
+          bestD2: 'Mejor recurrente mensual',
+          bestD3: 'Mejor para deals anuales',
+        },
+        resources: {
+          title: 'Todo Lo Que Necesitas, Listo para Descargar',
+          sub: 'Accede a materiales de venta, one-pagers y playbooks para compartir con tu red.',
+          download: 'Descargar',
+          preview: 'Ver',
+          soon: 'Pr\u00f3ximamente',
+          opGroup: 'One-Pagers por Departamento',
+          opGroupDesc: 'Material de venta espec\u00edfico por \u00e1rea funcional',
+          op1: 'Equipos de Ventas',
+          op1d: 'C\u00f3mo BucketsAI potencia a los equipos comerciales',
+          op2: 'Customer Success',
+          op2d: 'Impulsa retenci\u00f3n y satisfacci\u00f3n del cliente',
+          op3: 'Operaciones',
+          op3d: 'Optimiza procesos y toma de decisiones operativas',
+          op4: 'HR & Training',
+          op4d: 'Acelera onboarding y capacitaci\u00f3n de equipos',
+          icp: 'Descripci\u00f3n ICP',
+          icpd: 'Gu\u00eda de Perfil de Cliente Ideal',
+          doc1: 'Presentaci\u00f3n Comercial',
+          doc1d: 'Pitch deck completo para prospectos',
+          doc4: 'Gu\u00eda de Objeciones',
+          doc4d: 'Objeciones comunes y respuestas',
+          doc5: 'Playbooks por Industria',
+          doc5d: 'Puntos clave por vertical',
+          doc6: 'Modelo de Comisiones',
+          doc6d: 'Calculadora completa en Excel',
+        },
+        ai: {
+          title: '\u00bfTienes Preguntas? Pregunta a BucketsAI',
+          sub: 'Como partner, tienes acceso a una base de conocimiento AI dedicada, potenciada por BucketsAI. Obt\u00e9n respuestas instant\u00e1neas sobre precios, funcionalidades, manejo de objeciones y m\u00e1s.',
+          msg1: '\u00bfEn qu\u00e9 industrias funciona mejor BucketsAI?',
+          msg2: 'BucketsAI funciona mejor en industrias reguladas como banca, seguros, telco y retail. Cualquier empresa que venda productos basados en reglas o pol\u00edticas es un buen fit.',
+          cta: 'Acceder a la Base de Conocimiento \u2192',
+          note: 'Inicia sesi\u00f3n con tus credenciales de partner para acceder al bucket dedicado de resellers.',
+        },
+        form: {
+          title: '\u00bfListo para Empezar a Ganar?',
+          sub: 'Aplica al Programa de Partners de BucketsAI. Revisaremos tu solicitud y te contactaremos en 48 horas.',
+          name: 'Nombre Completo',
+          email: 'Correo Electr\u00f3nico',
+          company: 'Empresa / Organizaci\u00f3n',
+          country: 'Pa\u00eds',
+          linkedin: 'Perfil de LinkedIn (opcional)',
+          network: '\u00bfCu\u00e1ntos clientes potenciales estimas en tu red?',
+          message: 'Mensaje / Notas (opcional)',
+          terms: 'Acepto los T\u00e9rminos del Programa de Partners de BucketsAI',
+          submit: 'Aplicar Ahora',
+          sending: 'Enviando...',
+          successTitle: '\u00a1Solicitud enviada!',
+          successMsg: 'Nos pondremos en contacto dentro de 48 horas.',
+          required: 'Este campo es obligatorio',
+          invalidEmail: 'Correo electr\u00f3nico inv\u00e1lido',
+          acceptTerms: 'Debes aceptar los t\u00e9rminos',
+          selectCountry: 'Selecciona un pa\u00eds',
+          selectNetwork: 'Selecciona una opci\u00f3n',
+          countries: ['Estados Unidos', 'M\u00e9xico', 'Colombia', 'Chile', 'Argentina', 'Per\u00fa', 'Brasil', 'Otro'],
+          networkOpts: ['1\u20135', '6\u201315', '16\u201330', '30+'],
+        },
+        footer: {
+          program: 'Programa Partner',
+          pricing: 'Precios',
+          support: 'Soporte',
+          privacy: 'Pol\u00edtica de Privacidad',
+          copy: '\u00a9 2026 BucketsAI. Todos los derechos reservados.',
+        },
+      },
+      en: {
+        nav: {
+          program: 'Program',
+          commissions: 'Commissions',
+          resources: 'Resources',
+          support: 'AI Support',
+          cta: 'Become a Partner',
+        },
+        hero: {
+          headline: 'Connect. Earn. Repeat.',
+          sub: "Join BucketsAI's partner program and earn recurring commissions by connecting businesses with the AI decision infrastructure they need. No selling \u2014 just introductions.",
+          cta1: 'Apply to Partner Program',
+          cta2: 'Calculate Your Earnings \u2192',
+        },
+        how: {
+          title: 'How It Works',
+          step1t: 'Connect',
+          step1d: 'Introduce a business in your network to BucketsAI',
+          step2t: 'We Close',
+          step2d: 'Our team handles the demo, onboarding, and sale',
+          step3t: 'You Earn',
+          step3d: 'Receive recurring commissions every month',
+          note: 'Your first 2\u20133 deals are co-sold with our team. Then you scale independently.',
+        },
+        what: {
+          title: "What You're Connecting Them To",
+          desc: "BucketsAI turns a company's documents, policies, and commercial rules into a private AI assistant for their teams. Think of it as the internal ChatGPT for regulated businesses \u2014 secure, governed, and traceable.",
+          video: 'Watch 2-min Product Overview',
+          demo: 'Try the Live Demo \u2192',
+          videoSoon: 'Video coming soon',
+        },
+        industries: {
+          title: 'Where Your Network Becomes Revenue',
+          foot: 'If your contacts sell rule-driven products or services, BucketsAI fits.',
+          banking: 'Banking & Credit Unions',
+          bankingD: 'Advisors get real-time product recommendations based on internal rules',
+          insurance: 'Insurance',
+          insuranceD: 'Agents receive governed suggestions with eligibility and exclusions',
+          telco: 'Telco & Subscriptions',
+          telcoD: 'Complex pricing logic becomes easy for sales reps',
+          bpo: 'BPO & Outsourcing',
+          bpoD: 'Manage multiple client rules without confusion',
+          retail: 'Retail Chains',
+          retailD: 'Guide thousands of frontline workers with real-time answers',
+          health: 'Healthcare / Pharma',
+          healthD: 'Medical reps access approved product messaging instantly',
+        },
+        calc: {
+          title: 'See What You Could Earn',
+          sub: 'Select a plan, choose your commission model, and see your projected income.',
+          step1: 'Step 1: Choose a Plan',
+          step2: 'Step 2: Billing Type',
+          step3: 'Step 3: Commission Model',
+          step4: 'Step 4: How many clients can you connect?',
+          monthly: 'Monthly',
+          annual: 'Annual',
+          clients: 'clients',
+          totalEarnings: 'Total Earnings',
+          overPeriod: 'over commission period',
+          perClient: 'Per client',
+          perMonth: 'per month',
+          monthlyBreak: 'Monthly Breakdown',
+          bestFor: 'Best for',
+          mo: 'Mo',
+          team: 'Team',
+          department: 'Department',
+          company: 'Company',
+          modA: 'First Invoice',
+          modAd: '100% of the first invoice',
+          modB: '50% \u00d7 3 Months',
+          modBd: '50% per month for 3 months',
+          modC: '30% \u00d7 6 Months',
+          modCd: '30% per month for 6 months',
+          modD1: '10% Recurring',
+          modD1d: '10% per month for 12 months',
+          modD2: '12% Committed',
+          modD2d: '12% per month (12-mo contract)',
+          modD3: '15% Annual Lump Sum',
+          modD3d: '15% of annual total, one-time',
+          bestA: 'Quick cash',
+          bestB: 'Short cycles',
+          bestC: 'Balanced approach',
+          bestD1: 'Stable income',
+          bestD2: 'Best monthly recurring',
+          bestD3: 'Best for annual deals',
+        },
+        resources: {
+          title: 'Everything You Need, Ready to Download',
+          sub: 'Access sales materials, one-pagers, and playbooks to share with your network.',
+          download: 'Download',
+          preview: 'Preview',
+          soon: 'Coming Soon',
+          opGroup: 'Department One-Pagers',
+          opGroupDesc: 'Sales materials by functional area',
+          op1: 'Sales Teams',
+          op1d: 'How BucketsAI empowers commercial teams',
+          op2: 'Customer Success',
+          op2d: 'Drive retention and customer satisfaction',
+          op3: 'Operations',
+          op3d: 'Optimize processes and operational decisions',
+          op4: 'HR & Training',
+          op4d: 'Accelerate onboarding and team training',
+          icp: 'ICP Description',
+          icpd: 'Ideal Customer Profile guide',
+          doc1: 'Commercial Presentation',
+          doc1d: 'Full pitch deck for prospects',
+          doc4: 'Objection Handling Guide',
+          doc4d: 'Common objections & responses',
+          doc5: 'Industry Playbooks',
+          doc5d: 'Vertical-specific talking points',
+          doc6: 'Commission Model',
+          doc6d: 'Full calculator spreadsheet',
+        },
+        ai: {
+          title: 'Got Questions? Ask BucketsAI',
+          sub: 'As a partner, you get access to a dedicated AI knowledge base powered by BucketsAI itself. Get instant answers about pricing, product features, objection handling, and more.',
+          msg1: 'What industries does BucketsAI work best for?',
+          msg2: 'BucketsAI works best in regulated industries like banking, insurance, telco, and retail. Any company selling rule-based products or policies is a great fit.',
+          cta: 'Access Partner Knowledge Base \u2192',
+          note: 'Log in with your partner credentials to access the dedicated reseller bucket.',
+        },
+        form: {
+          title: 'Ready to Start Earning?',
+          sub: "Apply to the BucketsAI Partner Program. We'll review your application and get back to you within 48 hours.",
+          name: 'Full Name',
+          email: 'Email',
+          company: 'Company / Organization',
+          country: 'Country',
+          linkedin: 'LinkedIn Profile (optional)',
+          network: 'How many potential clients do you estimate in your network?',
+          message: 'Message / Notes (optional)',
+          terms: 'I agree to the BucketsAI Partner Terms',
+          submit: 'Apply Now',
+          sending: 'Sending...',
+          successTitle: 'Application submitted!',
+          successMsg: "We'll be in touch within 48 hours.",
+          required: 'This field is required',
+          invalidEmail: 'Invalid email address',
+          acceptTerms: 'You must accept the terms',
+          selectCountry: 'Select a country',
+          selectNetwork: 'Select an option',
+          countries: ['United States', 'Mexico', 'Colombia', 'Chile', 'Argentina', 'Peru', 'Brazil', 'Other'],
+          networkOpts: ['1\u20135', '6\u201315', '16\u201330', '30+'],
+        },
+        footer: {
+          program: 'Partner Program',
+          pricing: 'Pricing',
+          support: 'Support',
+          privacy: 'Privacy Policy',
+          copy: '\u00a9 2026 BucketsAI. All Rights Reserved.',
+        },
+      },
+    };
+
+    /* =========================================================
+       PRICING & COMMISSION DATA
+       ========================================================= */
+    const PLANS = [
+      { id: 'team', monthly: 199, annualPerMonth: 169, annualTotal: 2028 },
+      { id: 'department', monthly: 699, annualPerMonth: 589, annualTotal: 7068 },
+      { id: 'company', monthly: 1599, annualPerMonth: 1349, annualTotal: 16188 },
+    ];
+
+    const MODALITIES = [
+      { id: 'A', billingFilter: 'both' },
+      { id: 'B', billingFilter: 'both' },
+      { id: 'C', billingFilter: 'both' },
+      { id: 'D1', billingFilter: 'monthly' },
+      { id: 'D2', billingFilter: 'monthly' },
+      { id: 'D3', billingFilter: 'annual' },
+    ];
+
+    function calcCommission(plan, billing, modalityId) {
+      const base = billing === 'monthly' ? plan.monthly : plan.annualPerMonth;
+      const months = new Array(12).fill(0);
+      switch (modalityId) {
+        case 'A': months[0] = base; break;
+        case 'B': months[0] = base * 0.5; months[1] = base * 0.5; months[2] = base * 0.5; break;
+        case 'C': for (let i = 0; i < 6; i++) months[i] = base * 0.3; break;
+        case 'D1': for (let i = 0; i < 12; i++) months[i] = plan.monthly * 0.1; break;
+        case 'D2': for (let i = 0; i < 12; i++) months[i] = plan.monthly * 0.12; break;
+        case 'D3': months[0] = plan.annualTotal * 0.15; break;
+      }
+      return months;
+    }
+
+    function fmtCurrency(n) {
+      return '$' + Math.round(n).toLocaleString('en-US');
+    }
+    function fmtCurrencyDec(n) {
+      return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    /* =========================================================
+       CONTEXT & HOOKS
+       ========================================================= */
+    const LangContext = createContext();
+
+    function useLang() {
+      const ctx = useContext(LangContext);
+      return ctx;
+    }
+
+    function useScrollReveal(threshold = 0.1) {
+      const ref = useRef(null);
+      const [visible, setVisible] = useState(false);
+      useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+        const obs = new IntersectionObserver(
+          ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
+          { threshold, rootMargin: '0px 0px -40px 0px' }
+        );
+        obs.observe(el);
+        return () => obs.disconnect();
+      }, []);
+      return [ref, visible];
+    }
+
+    function useCountUp(target, duration = 800) {
+      const [val, setVal] = useState(0);
+      const prev = useRef(0);
+      useEffect(() => {
+        const start = prev.current;
+        const diff = target - start;
+        if (Math.abs(diff) < 1) { setVal(target); prev.current = target; return; }
+        const t0 = performance.now();
+        let raf;
+        function tick(now) {
+          const p = Math.min((now - t0) / duration, 1);
+          const ease = 1 - Math.pow(1 - p, 3);
+          setVal(Math.round(start + diff * ease));
+          if (p < 1) raf = requestAnimationFrame(tick);
+          else prev.current = target;
+        }
+        raf = requestAnimationFrame(tick);
+        return () => cancelAnimationFrame(raf);
+      }, [target, duration]);
+      return val;
+    }
+
+    /* =========================================================
+       SCROLL REVEAL WRAPPER
+       ========================================================= */
+    function Reveal({ children, className = '', delay = 0 }) {
+      const [ref, visible] = useScrollReveal();
+      return (
+        <div
+          ref={ref}
+          className={className}
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? 'translateY(0)' : 'translateY(24px)',
+            transition: `opacity 0.6s ease ${delay}ms, transform 0.6s ease ${delay}ms`,
+          }}
+        >
+          {children}
+        </div>
+      );
+    }
+
+    /* =========================================================
+       SVG ICONS (inline)
+       ========================================================= */
+    function IconConnect() {
+      return (
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="4" stroke="#4F6BFF" strokeWidth="2"/>
+          <circle cx="28" cy="12" r="4" stroke="#4F6BFF" strokeWidth="2"/>
+          <circle cx="20" cy="28" r="4" stroke="#4F6BFF" strokeWidth="2"/>
+          <line x1="15" y1="14" x2="17" y2="25" stroke="#4F6BFF" strokeWidth="1.5" strokeDasharray="3 2"/>
+          <line x1="25" y1="14" x2="23" y2="25" stroke="#4F6BFF" strokeWidth="1.5" strokeDasharray="3 2"/>
+          <line x1="16" y1="12" x2="24" y2="12" stroke="#4F6BFF" strokeWidth="1.5" strokeDasharray="3 2"/>
+        </svg>
+      );
+    }
+    function IconHandshake() {
+      return (
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 22l6-6 4 2 6-6" stroke="#4F6BFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M24 12h6v6" stroke="#4F6BFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M10 28h20" stroke="#4F6BFF" strokeWidth="2" strokeLinecap="round" opacity="0.4"/>
+        </svg>
+      );
+    }
+    function IconMoney() {
+      return (
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="12" stroke="#4F6BFF" strokeWidth="2"/>
+          <path d="M20 12v16M16 16c0-2 2-3 4-3s4 1 4 3-2 3-4 3-4 1-4 3 2 3 4 3 4-1 4-3" stroke="#4F6BFF" strokeWidth="2" strokeLinecap="round"/>
+        </svg>
+      );
+    }
+
+    /* Industry icons */
+    function IconBank() {
+      return (<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 4L4 12h24L16 4z" stroke="currentColor" strokeWidth="1.5"/><rect x="8" y="14" width="3" height="10" rx="0.5" stroke="currentColor" strokeWidth="1.5"/><rect x="14.5" y="14" width="3" height="10" rx="0.5" stroke="currentColor" strokeWidth="1.5"/><rect x="21" y="14" width="3" height="10" rx="0.5" stroke="currentColor" strokeWidth="1.5"/><path d="M4 26h24" stroke="currentColor" strokeWidth="1.5"/></svg>);
+    }
+    function IconShield() {
+      return (<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 4l10 4v8c0 6-4.5 10.5-10 12C10.5 26.5 6 22 6 16V8l10-4z" stroke="currentColor" strokeWidth="1.5"/><path d="M12 16l3 3 5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>);
+    }
+    function IconSignal() {
+      return (<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="6" y="20" width="4" height="6" rx="1" stroke="currentColor" strokeWidth="1.5"/><rect x="14" y="14" width="4" height="12" rx="1" stroke="currentColor" strokeWidth="1.5"/><rect x="22" y="8" width="4" height="18" rx="1" stroke="currentColor" strokeWidth="1.5"/></svg>);
+    }
+    function IconHeadset() {
+      return (<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M8 18v-4a8 8 0 0116 0v4" stroke="currentColor" strokeWidth="1.5"/><rect x="5" y="18" width="4" height="8" rx="2" stroke="currentColor" strokeWidth="1.5"/><rect x="23" y="18" width="4" height="8" rx="2" stroke="currentColor" strokeWidth="1.5"/></svg>);
+    }
+    function IconStore() {
+      return (<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M6 14V26h20V14" stroke="currentColor" strokeWidth="1.5"/><path d="M4 8h24l-2 6H6L4 8z" stroke="currentColor" strokeWidth="1.5"/><rect x="13" y="20" width="6" height="6" rx="0.5" stroke="currentColor" strokeWidth="1.5"/></svg>);
+    }
+    function IconHeart() {
+      return (<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 28s-10-6.5-10-14a6 6 0 0112 0 6 6 0 0112 0c0 7.5-10 14-10 14z" stroke="currentColor" strokeWidth="1.5" fill="none"/><path d="M12 14l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>);
+    }
+
+    /* Resource icons */
+    function IconDoc({ type }) {
+      const colors = { pdf: '#EF4444', doc: '#3B82F6', target: '#F59E0B', chat: '#8B5CF6', folder: '#10B981', chart: '#4F6BFF' };
+      const c = colors[type] || '#4F6BFF';
+      return (
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+          <rect x="6" y="4" width="24" height="28" rx="3" stroke={c} strokeWidth="1.5"/>
+          <path d="M12 14h12M12 19h8M12 24h10" stroke={c} strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/>
+          <circle cx="27" cy="27" r="7" fill={c} opacity="0.15"/>
+        </svg>
+      );
+    }
+
+    /* =========================================================
+       NETWORK SVG (Hero Background)
+       ========================================================= */
+    function NetworkSVG() {
+      const nodes = [
+        {x:8,y:15},{x:22,y:8},{x:38,y:20},{x:55,y:10},{x:72,y:18},{x:88,y:12},
+        {x:15,y:40},{x:32,y:50},{x:48,y:38},{x:65,y:45},{x:82,y:35},{x:92,y:48},
+        {x:10,y:70},{x:25,y:80},{x:42,y:68},{x:58,y:78},{x:75,y:65},{x:90,y:75},
+        {x:20,y:58},{x:50,y:58},{x:68,y:55},{x:35,y:30},{x:78,y:50},{x:5,y:50},
+      ];
+      const edges = [];
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          if (Math.sqrt(dx * dx + dy * dy) < 28) edges.push([i, j]);
+        }
+      }
+      return (
+        <svg viewBox="0 0 100 90" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice" style={{opacity:0.18}}>
+          {edges.map(([a, b], i) => (
+            <line key={'e'+i} x1={nodes[a].x} y1={nodes[a].y} x2={nodes[b].x} y2={nodes[b].y}
+              stroke="#4F6BFF" strokeWidth="0.25" className="animate-line-pulse"
+              style={{ animationDelay: `${i * 0.2}s` }}/>
+          ))}
+          {nodes.map((n, i) => (
+            <circle key={'n'+i} cx={n.x} cy={n.y} r={i % 3 === 0 ? 1.2 : 0.7} fill="#4F6BFF"
+              className="animate-float" style={{ animationDelay: `${i * 0.25}s` }}/>
+          ))}
+        </svg>
+      );
+    }
+
+    /* =========================================================
+       NAVBAR
+       ========================================================= */
+    function Navbar() {
+      const { lang, setLang, t } = useLang();
+      const [scrolled, setScrolled] = useState(false);
+      const [menuOpen, setMenuOpen] = useState(false);
+
+      useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 20);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+      }, []);
+
+      const links = [
+        { label: t.nav.program, href: '#how' },
+        { label: t.nav.commissions, href: '#calculator' },
+        { label: t.nav.resources, href: '#resources' },
+        { label: t.nav.support, href: '#ai-support' },
+      ];
+
+      return (
+        <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-md shadow-card' : 'bg-transparent'}`}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16 md:h-20">
+              {/* Logo */}
+              <a href="#" className="flex items-center gap-2 shrink-0">
+                <img src="./Logo-Bucketsai_new.png" alt="BucketsAI"
+                  className={`h-8 md:h-9 transition-all duration-300 ${scrolled ? '' : 'brightness-0 invert'}`} />
+              </a>
+
+              {/* Desktop links */}
+              <div className="hidden md:flex items-center gap-8">
+                {links.map((l) => (
+                  <a key={l.href} href={l.href}
+                    className={`text-sm font-medium transition-colors duration-200 hover:text-primary ${scrolled ? 'text-text-dark' : 'text-white/80 hover:text-white'}`}>
+                    {l.label}
+                  </a>
+                ))}
+              </div>
+
+              {/* Right side */}
+              <div className="flex items-center gap-3">
+                {/* Lang toggle */}
+                <button
+                  onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
+                  className={`text-xs font-bold px-2.5 py-1 rounded-full border transition-colors duration-200 ${scrolled ? 'border-gray-300 text-text-gray hover:border-primary hover:text-primary' : 'border-white/30 text-white/70 hover:border-white hover:text-white'}`}
+                  aria-label="Toggle language"
+                >
+                  {lang === 'es' ? 'EN' : 'ES'}
+                </button>
+
+                {/* CTA */}
+                <a href="#apply"
+                  className="hidden sm:inline-flex items-center px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-lg shadow-btn hover:bg-primary-dark hover:shadow-btn-hover transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
+                  {t.nav.cta}
+                </a>
+
+                {/* Mobile menu button */}
+                <button
+                  onClick={() => setMenuOpen(!menuOpen)}
+                  className={`md:hidden p-2 rounded-lg ${scrolled ? 'text-text-dark' : 'text-white'}`}
+                  aria-label="Menu"
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                    {menuOpen ? <><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></> :
+                    <><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></>}
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Mobile menu */}
+            {menuOpen && (
+              <div className="md:hidden pb-4 border-t border-gray-200/20">
+                {links.map((l) => (
+                  <a key={l.href} href={l.href}
+                    onClick={() => setMenuOpen(false)}
+                    className={`block py-3 text-sm font-medium ${scrolled ? 'text-text-dark' : 'text-white/80'}`}>
+                    {l.label}
+                  </a>
+                ))}
+                <a href="#apply" onClick={() => setMenuOpen(false)}
+                  className="block mt-2 text-center px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-lg">
+                  {t.nav.cta}
+                </a>
+              </div>
+            )}
+          </div>
+        </nav>
+      );
+    }
+
+    /* =========================================================
+       HERO
+       ========================================================= */
+    function Hero() {
+      const { t } = useLang();
+      return (
+        <section className="relative min-h-[90vh] md:min-h-screen flex items-center bg-navy overflow-hidden grain">
+          <NetworkSVG />
+          {/* Gradient overlays */}
+          <div className="absolute inset-0 bg-gradient-to-b from-navy/50 via-transparent to-navy"/>
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-navy to-transparent"/>
+
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 md:py-40">
+            <div className="max-w-3xl">
+              <Reveal>
+                <h1 className="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white tracking-tight-heading leading-[1.1]">
+                  {t.hero.headline}
+                </h1>
+              </Reveal>
+              <Reveal delay={150}>
+                <p className="mt-6 text-lg md:text-xl text-white/70 leading-body max-w-2xl">
+                  {t.hero.sub}
+                </p>
+              </Reveal>
+              <Reveal delay={300}>
+                <div className="mt-10 flex flex-wrap gap-4">
+                  <a href="#apply"
+                    className="inline-flex items-center px-7 py-3.5 bg-primary text-white font-semibold rounded-xl shadow-btn hover:bg-primary-dark hover:shadow-btn-hover transition-transform duration-200 hover:scale-[1.03] active:scale-[0.97]">
+                    {t.hero.cta1}
+                  </a>
+                  <a href="#calculator"
+                    className="inline-flex items-center px-7 py-3.5 bg-white/10 text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-transform duration-200 hover:scale-[1.03] active:scale-[0.97]">
+                    {t.hero.cta2}
+                  </a>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* =========================================================
+       HOW IT WORKS
+       ========================================================= */
+    function HowItWorks() {
+      const { t } = useLang();
+      const steps = [
+        { icon: <IconConnect />, title: t.how.step1t, desc: t.how.step1d, num: '01' },
+        { icon: <IconHandshake />, title: t.how.step2t, desc: t.how.step2d, num: '02' },
+        { icon: <IconMoney />, title: t.how.step3t, desc: t.how.step3d, num: '03' },
+      ];
+      return (
+        <section id="how" className="py-20 md:py-28 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Reveal>
+              <h2 className="font-display font-bold text-3xl md:text-4xl text-center tracking-tight-heading">
+                {t.how.title}
+              </h2>
+            </Reveal>
+            <div className="mt-16 grid md:grid-cols-3 gap-8 md:gap-12">
+              {steps.map((s, i) => (
+                <Reveal key={i} delay={i * 150}>
+                  <div className="relative text-center md:text-left group">
+                    {/* Connector line (desktop) */}
+                    {i < 2 && (
+                      <div className="hidden md:block absolute top-8 left-[calc(50%+40px)] w-[calc(100%-60px)] h-px bg-gradient-to-r from-primary/30 to-primary/10"/>
+                    )}
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary-light mb-5 group-hover:scale-110 transition-transform duration-300">
+                      {s.icon}
+                    </div>
+                    <span className="block font-mono text-xs text-primary/60 mb-1">{s.num}</span>
+                    <h3 className="font-display font-bold text-xl mb-2">{s.title}</h3>
+                    <p className="text-text-gray leading-body">{s.desc}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+            <Reveal delay={500}>
+              <p className="mt-12 text-center text-sm text-text-gray italic">
+                {t.how.note}
+              </p>
+            </Reveal>
+          </div>
+        </section>
+      );
+    }
+
+    /* =========================================================
+       WHAT IS BUCKETSAI
+       ========================================================= */
+    function WhatIsBuckets() {
+      const { t } = useLang();
+      return (
+        <section className="py-20 md:py-28 bg-surface">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+              {/* Text */}
+              <Reveal>
+                <div>
+                  <h2 className="font-display font-bold text-3xl md:text-4xl tracking-tight-heading mb-6">
+                    {t.what.title}
+                  </h2>
+                  <p className="text-text-gray leading-body text-lg mb-8">
+                    {t.what.desc}
+                  </p>
+                  <a href="https://app.buckets-ai.com/" target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center text-primary font-semibold hover:underline transition-transform duration-200 hover:translate-x-1">
+                    {t.what.demo}
+                  </a>
+                </div>
+              </Reveal>
+
+              {/* Video */}
+              <Reveal delay={200}>
+                <div className="relative aspect-video bg-navy rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-300">
+                  <video
+                    className="w-full h-full object-cover rounded-2xl"
+                    controls
+                    preload="metadata"
+                    poster=""
+                  >
+                    <source src="./Video BucketsAI.mp4" type="video/mp4" />
+                  </video>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+
+        </section>
+      );
+    }
+
+    /* =========================================================
+       INDUSTRIES
+       ========================================================= */
+    function Industries() {
+      const { t } = useLang();
+      const items = [
+        { icon: <IconBank />, name: t.industries.banking, desc: t.industries.bankingD },
+        { icon: <IconShield />, name: t.industries.insurance, desc: t.industries.insuranceD },
+        { icon: <IconSignal />, name: t.industries.telco, desc: t.industries.telcoD },
+        { icon: <IconHeadset />, name: t.industries.bpo, desc: t.industries.bpoD },
+        { icon: <IconStore />, name: t.industries.retail, desc: t.industries.retailD },
+        { icon: <IconHeart />, name: t.industries.health, desc: t.industries.healthD },
+      ];
+      return (
+        <section className="py-20 md:py-28 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Reveal>
+              <h2 className="font-display font-bold text-3xl md:text-4xl text-center tracking-tight-heading mb-16">
+                {t.industries.title}
+              </h2>
+            </Reveal>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {items.map((item, i) => (
+                <Reveal key={i} delay={i * 100}>
+                  <div className="p-6 rounded-2xl border border-gray-100 bg-white shadow-card hover:shadow-card-hover transition-shadow duration-300 group">
+                    <div className="text-primary mb-4 group-hover:scale-110 transition-transform duration-300 inline-block">
+                      {item.icon}
+                    </div>
+                    <h3 className="font-display font-bold text-lg mb-2">{item.name}</h3>
+                    <p className="text-text-gray text-sm leading-relaxed">{item.desc}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+            <Reveal delay={600}>
+              <p className="mt-12 text-center text-sm text-text-gray italic">{t.industries.foot}</p>
+            </Reveal>
+          </div>
+        </section>
+      );
+    }
+
+    /* =========================================================
+       COMMISSION CALCULATOR
+       ========================================================= */
+    function Calculator() {
+      const { t } = useLang();
+      const [planIdx, setPlanIdx] = useState(1); // default Department
+      const [billing, setBilling] = useState('monthly');
+      const [modality, setModality] = useState('A');
+      const [clients, setClients] = useState(3);
+
+      const plan = PLANS[planIdx];
+      const planLabels = [t.calc.team, t.calc.department, t.calc.company];
+      const planPrices = [
+        { m: '$199', a: '$169' },
+        { m: '$699', a: '$589' },
+        { m: '$1,599', a: '$1,349' },
+      ];
+
+      // Filter modalities by billing
+      const availMods = MODALITIES.filter(m =>
+        m.billingFilter === 'both' || m.billingFilter === billing
+      );
+
+      // Reset modality if not available
+      useEffect(() => {
+        if (!availMods.find(m => m.id === modality)) {
+          setModality(availMods[0].id);
+        }
+      }, [billing]);
+
+      const modLabels = {
+        A: { name: t.calc.modA, desc: t.calc.modAd, best: t.calc.bestA },
+        B: { name: t.calc.modB, desc: t.calc.modBd, best: t.calc.bestB },
+        C: { name: t.calc.modC, desc: t.calc.modCd, best: t.calc.bestC },
+        D1: { name: t.calc.modD1, desc: t.calc.modD1d, best: t.calc.bestD1 },
+        D2: { name: t.calc.modD2, desc: t.calc.modD2d, best: t.calc.bestD2 },
+        D3: { name: t.calc.modD3, desc: t.calc.modD3d, best: t.calc.bestD3 },
+      };
+
+      // Calculate
+      const monthlyArr = calcCommission(plan, billing, modality);
+      const perClientTotal = monthlyArr.reduce((s, v) => s + v, 0);
+      const grandTotal = perClientTotal * clients;
+      const totalMonths = monthlyArr.map(v => v * clients);
+      const maxMonthly = Math.max(...totalMonths);
+      const firstMonth = monthlyArr[0];
+
+      const animatedTotal = useCountUp(grandTotal);
+
+      return (
+        <section id="calculator" className="py-20 md:py-28 bg-surface relative grain">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Reveal>
+              <div className="text-center mb-12">
+                <h2 className="font-display font-bold text-3xl md:text-4xl tracking-tight-heading">
+                  {t.calc.title}
+                </h2>
+                <p className="mt-4 text-text-gray text-lg">{t.calc.sub}</p>
+              </div>
+            </Reveal>
+
+            <Reveal delay={200}>
+              <div className="bg-white rounded-3xl shadow-card p-6 md:p-10">
+
+                {/* Step 1: Plan */}
+                <div className="mb-8">
+                  <h3 className="font-display font-semibold text-sm text-text-gray uppercase tracking-wider mb-4">{t.calc.step1}</h3>
+                  <div className="grid grid-cols-3 gap-3">
+                    {PLANS.map((p, i) => (
+                      <button key={p.id} onClick={() => setPlanIdx(i)}
+                        className={`relative p-4 md:p-5 rounded-xl border-2 text-left transition-all duration-200 ${planIdx === i ? 'border-primary bg-primary-50 shadow-glow' : 'border-gray-200 hover:border-primary/40 bg-white'}`}
+                      >
+                        <span className="block font-display font-bold text-sm md:text-base">{planLabels[i]}</span>
+                        <span className="block font-mono font-bold text-lg md:text-2xl mt-1 text-primary">
+                          {billing === 'monthly' ? planPrices[i].m : planPrices[i].a}
+                        </span>
+                        <span className="block text-xs text-text-gray mt-0.5">/{t.calc.monthly.toLowerCase()}</span>
+                        {planIdx === i && (
+                          <div className="absolute top-2 right-2 w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 6l2 2 4-4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                          </div>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Step 2: Billing */}
+                <div className="mb-8">
+                  <h3 className="font-display font-semibold text-sm text-text-gray uppercase tracking-wider mb-4">{t.calc.step2}</h3>
+                  <div className="inline-flex bg-surface rounded-xl p-1">
+                    {['monthly', 'annual'].map(b => (
+                      <button key={b} onClick={() => setBilling(b)}
+                        className={`px-6 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 ${billing === b ? 'bg-primary text-white shadow-btn' : 'text-text-gray hover:text-text-dark'}`}>
+                        {b === 'monthly' ? t.calc.monthly : t.calc.annual}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Step 3: Modality */}
+                <div className="mb-8">
+                  <h3 className="font-display font-semibold text-sm text-text-gray uppercase tracking-wider mb-4">{t.calc.step3}</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {availMods.map(m => {
+                      const ml = modLabels[m.id];
+                      const sel = modality === m.id;
+                      return (
+                        <button key={m.id} onClick={() => setModality(m.id)}
+                          className={`p-4 rounded-xl border-2 text-left transition-all duration-200 ${sel ? 'border-primary bg-primary-50' : 'border-gray-200 hover:border-primary/40'}`}>
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className={`inline-block px-2 py-0.5 rounded text-xs font-bold ${sel ? 'bg-primary text-white' : 'bg-surface text-text-gray'}`}>
+                              {m.id}
+                            </span>
+                            <span className="font-display font-semibold text-sm">{ml.name}</span>
+                          </div>
+                          <p className="text-xs text-text-gray">{ml.desc}</p>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Step 4: Client count */}
+                <div className="mb-10">
+                  <h3 className="font-display font-semibold text-sm text-text-gray uppercase tracking-wider mb-4">{t.calc.step4}</h3>
+                  <div className="flex items-center gap-6">
+                    <input type="range" min="1" max="20" value={clients}
+                      onChange={e => setClients(parseInt(e.target.value))}
+                      className="flex-1"/>
+                    <div className="shrink-0 bg-primary-light rounded-xl px-5 py-2.5 min-w-[80px] text-center">
+                      <span className="font-mono font-bold text-2xl text-primary">{clients}</span>
+                      <span className="block text-xs text-primary/70">{t.calc.clients}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Divider */}
+                <div className="border-t border-gray-100 mb-8"/>
+
+                {/* Results */}
+                <div className="text-center mb-8">
+                  <p className="text-sm text-text-gray uppercase tracking-wider mb-2">{t.calc.totalEarnings}</p>
+                  <div className="font-mono font-bold text-5xl md:text-6xl text-primary tracking-tight">
+                    {fmtCurrency(animatedTotal)}
+                  </div>
+                  <p className="text-text-gray text-sm mt-1">{t.calc.overPeriod}</p>
+                </div>
+
+                {/* Stats row */}
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                  <div className="bg-surface rounded-xl p-4 text-center">
+                    <p className="text-xs text-text-gray mb-1">{t.calc.perClient}</p>
+                    <p className="font-mono font-bold text-xl text-text-dark">{fmtCurrencyDec(perClientTotal)}</p>
+                  </div>
+                  <div className="bg-surface rounded-xl p-4 text-center">
+                    <p className="text-xs text-text-gray mb-1">{t.calc.perClient} ({t.calc.perMonth})</p>
+                    <p className="font-mono font-bold text-xl text-text-dark">{fmtCurrencyDec(firstMonth)}</p>
+                  </div>
+                </div>
+
+                {/* Best for badge */}
+                <div className="flex justify-center mb-8">
+                  <div className="inline-flex items-center gap-2 bg-primary-light px-4 py-2 rounded-full">
+                    <span className="text-sm">&#128161;</span>
+                    <span className="text-sm font-medium text-primary">
+                      {t.calc.bestFor}: {modLabels[modality]?.best}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Bar chart */}
+                <div>
+                  <h4 className="font-display font-semibold text-sm text-text-gray uppercase tracking-wider mb-4 text-center">
+                    {t.calc.monthlyBreak}
+                  </h4>
+                  <div className="flex items-end gap-1.5 h-36 md:h-44 px-2">
+                    {totalMonths.map((val, i) => (
+                      <div key={`${modality}-${billing}-${planIdx}-${clients}-${i}`} className="flex-1 flex flex-col items-center gap-1 h-full justify-end">
+                        <div className="relative w-full flex-1 flex items-end">
+                          {val > 0 && (
+                            <div className="w-full bg-gradient-to-t from-primary to-primary/70 rounded-t-md bar-animate"
+                              style={{
+                                height: maxMonthly > 0 ? `${Math.max((val / maxMonthly) * 100, 4)}%` : '4%',
+                                animationDelay: `${i * 50}ms`,
+                              }}
+                              title={fmtCurrencyDec(val)}
+                            />
+                          )}
+                          {val === 0 && (
+                            <div className="w-full h-1 bg-gray-200 rounded-full"/>
+                          )}
+                        </div>
+                        <span className="text-[10px] text-text-gray font-mono">{t.calc.mo}{i + 1}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      );
+    }
+
+    /* =========================================================
+       RESOURCE CENTER
+       ========================================================= */
+    function PDFPreviewModal({ file, title, onClose, downloadLabel }) {
+      React.useEffect(() => {
+        const handler = (e) => { if (e.key === 'Escape') onClose(); };
+        document.addEventListener('keydown', handler);
+        document.body.style.overflow = 'hidden';
+        return () => { document.removeEventListener('keydown', handler); document.body.style.overflow = ''; };
+      }, [onClose]);
+      return ReactDOM.createPortal(
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4" onClick={onClose}>
+          <div className="absolute inset-0 bg-navy/80 backdrop-blur-sm" />
+          <div className="relative w-full max-w-5xl h-[88vh] bg-white rounded-2xl overflow-hidden shadow-2xl flex flex-col" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100 bg-surface shrink-0">
+              <h3 className="font-display font-bold text-sm md:text-base truncate pr-4">{title}</h3>
+              <div className="flex items-center gap-2 shrink-0">
+                <a href={file} download target="_blank" rel="noopener noreferrer"
+                  className="px-4 py-2 bg-primary text-white text-xs font-semibold rounded-lg hover:bg-primary-dark transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center gap-1.5">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v8.5M3.5 6.5L7 10l3.5-3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M1 11v1.5a1 1 0 001 1h10a1 1 0 001-1V11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                  {downloadLabel}
+                </a>
+                <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-200 transition-colors duration-150" aria-label="Close">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="#1A1A2E" strokeWidth="2" strokeLinecap="round"/></svg>
+                </button>
+              </div>
+            </div>
+            <iframe src={file} className="w-full flex-1 border-0" title={title} />
+          </div>
+        </div>,
+        document.body
+      );
+    }
+
+    function ResourceCenter() {
+      const { t } = useLang();
+      const [previewFile, setPreviewFile] = React.useState(null);
+
+      const onePagers = [
+        { title: t.resources.op1, desc: t.resources.op1d, file: './One-pager BucketsAI - Equipos de ventas.pdf' },
+        { title: t.resources.op2, desc: t.resources.op2d, file: './One-pager BucketsAI -  Customer Success.pdf' },
+        { title: t.resources.op3, desc: t.resources.op3d, file: './One-pager BucketsAI - Equipos de Operaciones.pdf' },
+        { title: t.resources.op4, desc: t.resources.op4d, file: './One-pager BucketsAI - HR Manager y Training Manager.pdf' },
+      ];
+
+      const otherDocs = [
+        { icon: 'target', title: t.resources.icp, desc: t.resources.icpd, ready: true, file: './icp_bucketsai.pdf', canPreview: true },
+        { icon: 'chart', title: t.resources.doc6, desc: t.resources.doc6d, ready: true, file: './Modelo comisiones Resellers.xlsx', canPreview: false },
+        { icon: 'pdf', title: t.resources.doc1, desc: t.resources.doc1d, ready: false },
+        { icon: 'chat', title: t.resources.doc4, desc: t.resources.doc4d, ready: false },
+        { icon: 'folder', title: t.resources.doc5, desc: t.resources.doc5d, ready: false },
+      ];
+
+      return (
+        <section id="resources" className="py-20 md:py-28 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Reveal>
+              <div className="text-center mb-12">
+                <h2 className="font-display font-bold text-3xl md:text-4xl tracking-tight-heading">{t.resources.title}</h2>
+                <p className="mt-4 text-text-gray text-lg">{t.resources.sub}</p>
+              </div>
+            </Reveal>
+
+            {/* PDF Preview Modal */}
+            {previewFile && (
+              <PDFPreviewModal
+                file={previewFile.file}
+                title={previewFile.title}
+                downloadLabel={t.resources.download}
+                onClose={() => setPreviewFile(null)}
+              />
+            )}
+
+            {/* One-Pager Hub */}
+            <Reveal>
+              <div className="mb-8 p-6 md:p-8 rounded-2xl border border-gray-100 bg-white shadow-card">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <rect x="3" y="1" width="14" height="18" rx="2" stroke="#4F6BFF" strokeWidth="1.5"/>
+                      <path d="M7 6h6M7 9h4M7 12h5" stroke="#4F6BFF" strokeWidth="1.3" strokeLinecap="round" opacity="0.6"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-display font-bold text-lg">{t.resources.opGroup}</h3>
+                    <p className="text-text-gray text-sm">{t.resources.opGroupDesc}</p>
+                  </div>
+                </div>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {onePagers.map((op, i) => (
+                    <div key={i} className="group p-4 rounded-xl bg-surface/50 border border-gray-100 hover:border-primary/30 hover:bg-primary-50/30 transition-colors duration-200">
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center shrink-0 mt-0.5">
+                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M4 1h5.5L13 4.5V14a1 1 0 01-1 1H4a1 1 0 01-1-1V2a1 1 0 011-1z" stroke="#3B82F6" strokeWidth="1.2"/>
+                            <path d="M9 1v4h4" stroke="#3B82F6" strokeWidth="1.2" strokeLinecap="round"/>
+                          </svg>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-display font-semibold text-sm mb-0.5 text-text-dark">{op.title}</h4>
+                          <p className="text-text-gray text-xs leading-relaxed mb-3">{op.desc}</p>
+                          <div className="flex gap-2">
+                            <button onClick={() => setPreviewFile(op)}
+                              className="flex items-center justify-center gap-1.5 flex-1 py-2 rounded-lg text-xs font-semibold bg-white border border-gray-200 text-text-dark hover:border-primary hover:text-primary transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-primary/40">
+                              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 3C3.5 3 1 7 1 7s2.5 4 6 4 6-4 6-4-2.5-4-6-4z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/><circle cx="7" cy="7" r="2" stroke="currentColor" strokeWidth="1.2"/></svg>
+                              {t.resources.preview}
+                            </button>
+                            <a href={op.file} download target="_blank" rel="noopener noreferrer"
+                              className="flex items-center justify-center gap-1.5 flex-1 py-2 rounded-lg text-xs font-semibold bg-primary text-white hover:bg-primary-dark transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40">
+                              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v8.5M3.5 6.5L7 10l3.5-3.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/><path d="M1 11v1.5a1 1 0 001 1h10a1 1 0 001-1V11" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>
+                              {t.resources.download}
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Other Resources */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {otherDocs.map((d, i) => (
+                <Reveal key={i} delay={i * 80}>
+                  <div className="p-6 rounded-2xl border border-gray-100 bg-white shadow-card hover:shadow-card-hover transition-shadow duration-300 flex flex-col">
+                    <div className="mb-4"><IconDoc type={d.icon} /></div>
+                    <h3 className="font-display font-bold text-base mb-1">{d.title}</h3>
+                    <p className="text-text-gray text-sm leading-relaxed mb-4 flex-1">{d.desc}</p>
+                    {d.ready ? (
+                      <div className="flex gap-2">
+                        {d.canPreview && (
+                          <button onClick={() => setPreviewFile(d)}
+                            className="flex-1 py-2.5 rounded-lg text-sm font-semibold text-center bg-white border border-gray-200 text-text-dark hover:border-primary hover:text-primary transition-colors duration-200 flex items-center justify-center gap-1.5 focus-visible:ring-2 focus-visible:ring-primary/40">
+                            <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M7 3C3.5 3 1 7 1 7s2.5 4 6 4 6-4 6-4-2.5-4-6-4z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/><circle cx="7" cy="7" r="2" stroke="currentColor" strokeWidth="1.2"/></svg>
+                            {t.resources.preview}
+                          </button>
+                        )}
+                        <a href={d.file} download target="_blank" rel="noopener noreferrer"
+                          className={`${d.canPreview ? 'flex-1' : 'w-full'} py-2.5 rounded-lg text-sm font-semibold text-center bg-primary text-white hover:bg-primary-dark shadow-btn hover:shadow-btn-hover transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-1.5`}>
+                          <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M7 1v8.5M3.5 6.5L7 10l3.5-3.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/><path d="M1 11v1.5a1 1 0 001 1h10a1 1 0 001-1V11" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>
+                          {t.resources.download}
+                        </a>
+                      </div>
+                    ) : (
+                      <button disabled
+                        className="w-full py-2.5 rounded-lg text-sm font-semibold bg-surface text-text-gray cursor-not-allowed">
+                        {t.resources.soon}
+                      </button>
+                    )}
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* =========================================================
+       AI SUPPORT HUB
+       ========================================================= */
+    function AISupport() {
+      const { t } = useLang();
+      return (
+        <section id="ai-support" className="py-20 md:py-28 bg-surface">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+              <Reveal>
+                <div>
+                  <h2 className="font-display font-bold text-3xl md:text-4xl tracking-tight-heading mb-6">{t.ai.title}</h2>
+                  <p className="text-text-gray leading-body text-lg mb-8">{t.ai.sub}</p>
+                  <a href="https://app.buckets-ai.com/" target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center px-6 py-3 bg-primary text-white font-semibold rounded-xl shadow-btn hover:bg-primary-dark hover:shadow-btn-hover transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
+                    {t.ai.cta}
+                  </a>
+                  <p className="mt-4 text-sm text-text-gray">{t.ai.note}</p>
+                </div>
+              </Reveal>
+
+              <Reveal delay={200}>
+                <div className="bg-navy rounded-2xl p-6 shadow-card">
+                  {/* Chat header */}
+                  <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
+                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="white"><circle cx="8" cy="8" r="3"/></svg>
+                    </div>
+                    <span className="text-white font-display font-semibold text-sm">BucketsAI Partner Assistant</span>
+                    <span className="ml-auto w-2 h-2 rounded-full bg-success"/>
+                  </div>
+                  {/* Messages */}
+                  <div className="space-y-4">
+                    {/* User */}
+                    <div className="flex justify-end">
+                      <div className="bg-primary/20 rounded-2xl rounded-tr-md px-4 py-3 max-w-[80%]">
+                        <p className="text-white/90 text-sm">{t.ai.msg1}</p>
+                      </div>
+                    </div>
+                    {/* AI */}
+                    <div className="flex justify-start">
+                      <div className="bg-white/10 rounded-2xl rounded-tl-md px-4 py-3 max-w-[85%]">
+                        <p className="text-white/80 text-sm leading-relaxed">{t.ai.msg2}</p>
+                      </div>
+                    </div>
+                    {/* Typing indicator */}
+                    <div className="flex justify-start">
+                      <div className="bg-white/10 rounded-2xl rounded-tl-md px-4 py-3">
+                        <div className="flex gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-white/40 animate-pulse" style={{animationDelay:'0ms'}}/>
+                          <span className="w-1.5 h-1.5 rounded-full bg-white/40 animate-pulse" style={{animationDelay:'200ms'}}/>
+                          <span className="w-1.5 h-1.5 rounded-full bg-white/40 animate-pulse" style={{animationDelay:'400ms'}}/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* =========================================================
+       REGISTRATION FORM
+       ========================================================= */
+    function RegistrationForm() {
+      const { t } = useLang();
+      const [form, setForm] = useState({
+        name: '', email: '', company: '', country: '', linkedin: '', network: '', message: '', terms: false,
+      });
+      const [errors, setErrors] = useState({});
+      const [status, setStatus] = useState('idle'); // idle | sending | success | error
+
+      const update = (field, value) => {
+        setForm(prev => ({ ...prev, [field]: value }));
+        if (errors[field]) setErrors(prev => { const n = {...prev}; delete n[field]; return n; });
+      };
+
+      const validate = () => {
+        const errs = {};
+        if (!form.name.trim()) errs.name = t.form.required;
+        if (!form.email.trim()) errs.email = t.form.required;
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) errs.email = t.form.invalidEmail;
+        if (!form.company.trim()) errs.company = t.form.required;
+        if (!form.country) errs.country = t.form.selectCountry;
+        if (!form.terms) errs.terms = t.form.acceptTerms;
+        return errs;
+      };
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        const errs = validate();
+        if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+
+        setStatus('sending');
+        try {
+          const res = await fetch('https://formsubmit.co/ajax/ruben@hoytrabajas.com', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({
+              _subject: 'New BucketsAI Partner Application',
+              'Full Name': form.name,
+              Email: form.email,
+              Company: form.company,
+              Country: form.country,
+              LinkedIn: form.linkedin || 'Not provided',
+              'Network Size': form.network || 'Not specified',
+              Message: form.message || 'No message',
+            }),
+          });
+          if (res.ok) setStatus('success');
+          else setStatus('error');
+        } catch {
+          setStatus('error');
+        }
+      };
+
+      if (status === 'success') {
+        return (
+          <section id="apply" className="py-20 md:py-28 bg-navy relative grain">
+            <div className="relative z-10 max-w-2xl mx-auto px-4 text-center">
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-success/20 mb-6">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M12 20l5 5 11-11" stroke="#10B981" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </div>
+              <h2 className="font-display font-bold text-3xl md:text-4xl text-white mb-4">{t.form.successTitle}</h2>
+              <p className="text-white/70 text-lg">{t.form.successMsg}</p>
+            </div>
+          </section>
+        );
+      }
+
+      const inputCls = (field) =>
+        `w-full px-4 py-3 rounded-xl border bg-white text-text-dark font-body text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary ${errors[field] ? 'border-red-400' : 'border-gray-200'}`;
+
+      return (
+        <section id="apply" className="py-20 md:py-28 bg-navy relative grain">
+          <div className="absolute inset-0 bg-gradient-to-b from-navy via-navy/95 to-navy"/>
+          <div className="relative z-10 max-w-2xl mx-auto px-4 sm:px-6">
+            <Reveal>
+              <div className="text-center mb-10">
+                <h2 className="font-display font-bold text-3xl md:text-4xl text-white tracking-tight-heading">{t.form.title}</h2>
+                <p className="mt-4 text-white/60 text-lg">{t.form.sub}</p>
+              </div>
+            </Reveal>
+
+            <Reveal delay={200}>
+              <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-6 md:p-10 shadow-card space-y-5">
+                {/* Name */}
+                <div>
+                  <label className="block text-sm font-medium text-text-dark mb-1.5">{t.form.name} *</label>
+                  <input type="text" value={form.name} onChange={e => update('name', e.target.value)} className={inputCls('name')} />
+                  {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+                </div>
+
+                {/* Email */}
+                <div>
+                  <label className="block text-sm font-medium text-text-dark mb-1.5">{t.form.email} *</label>
+                  <input type="email" value={form.email} onChange={e => update('email', e.target.value)} className={inputCls('email')} />
+                  {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+                </div>
+
+                {/* Company */}
+                <div>
+                  <label className="block text-sm font-medium text-text-dark mb-1.5">{t.form.company} *</label>
+                  <input type="text" value={form.company} onChange={e => update('company', e.target.value)} className={inputCls('company')} />
+                  {errors.company && <p className="text-red-500 text-xs mt-1">{errors.company}</p>}
+                </div>
+
+                {/* Country */}
+                <div>
+                  <label className="block text-sm font-medium text-text-dark mb-1.5">{t.form.country} *</label>
+                  <select value={form.country} onChange={e => update('country', e.target.value)} className={inputCls('country')}>
+                    <option value="">{t.form.selectCountry}</option>
+                    {t.form.countries.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                  {errors.country && <p className="text-red-500 text-xs mt-1">{errors.country}</p>}
+                </div>
+
+                {/* LinkedIn */}
+                <div>
+                  <label className="block text-sm font-medium text-text-dark mb-1.5">{t.form.linkedin}</label>
+                  <input type="text" value={form.linkedin} onChange={e => update('linkedin', e.target.value)} className={inputCls('linkedin')} />
+                </div>
+
+                {/* Network */}
+                <div>
+                  <label className="block text-sm font-medium text-text-dark mb-1.5">{t.form.network}</label>
+                  <select value={form.network} onChange={e => update('network', e.target.value)} className={inputCls('network')}>
+                    <option value="">{t.form.selectNetwork}</option>
+                    {t.form.networkOpts.map(n => <option key={n} value={n}>{n}</option>)}
+                  </select>
+                </div>
+
+                {/* Message */}
+                <div>
+                  <label className="block text-sm font-medium text-text-dark mb-1.5">{t.form.message}</label>
+                  <textarea value={form.message} onChange={e => update('message', e.target.value)}
+                    rows="3" className={inputCls('message')}/>
+                </div>
+
+                {/* Terms */}
+                <div>
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" checked={form.terms} onChange={e => update('terms', e.target.checked)}
+                      className="mt-0.5 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary"/>
+                    <span className="text-sm text-text-gray">{t.form.terms}</span>
+                  </label>
+                  {errors.terms && <p className="text-red-500 text-xs mt-1">{errors.terms}</p>}
+                </div>
+
+                {/* Submit */}
+                <button type="submit" disabled={status === 'sending'}
+                  className="w-full py-3.5 bg-primary text-white font-semibold rounded-xl shadow-btn hover:bg-primary-dark hover:shadow-btn-hover transition-transform duration-200 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed">
+                  {status === 'sending' ? t.form.sending : t.form.submit}
+                </button>
+
+                {status === 'error' && (
+                  <p className="text-red-500 text-sm text-center">Something went wrong. Please try again.</p>
+                )}
+              </form>
+            </Reveal>
+          </div>
+        </section>
+      );
+    }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+    function Footer() {
+      const { t } = useLang();
+      return (
+        <footer className="bg-navy-800 py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+              <div className="flex items-center gap-3">
+                <img src="./Logo-Bucketsai_new.png" alt="BucketsAI" className="h-7 brightness-0 invert"/>
+              </div>
+              <div className="flex flex-wrap justify-center gap-6 text-sm text-white/50">
+                <a href="#how" className="hover:text-white transition-colors">{t.footer.program}</a>
+                <a href="https://buckets-ai.com/pricing" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">{t.footer.pricing}</a>
+                <a href="#ai-support" className="hover:text-white transition-colors">{t.footer.support}</a>
+                <a href="#" className="hover:text-white transition-colors">{t.footer.privacy}</a>
+              </div>
+              <div className="flex items-center gap-4">
+                {/* LinkedIn */}
+                <a href="#" className="text-white/40 hover:text-white transition-colors" aria-label="LinkedIn">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M4.5 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM3 8h3v9H3V8zm5.5 0h2.9v1.2h.04c.4-.76 1.4-1.56 2.9-1.56C17.1 7.64 18 9.6 18 12.2V17h-3v-4.2c0-1-.02-2.3-1.4-2.3s-1.6 1.1-1.6 2.2V17H9V8h-.5z"/></svg>
+                </a>
+                {/* Twitter/X */}
+                <a href="#" className="text-white/40 hover:text-white transition-colors" aria-label="Twitter">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M11.2 8.8L16.8 2h-1.3l-4.9 5.9L6.4 2H2l5.9 8.5L2 18h1.3l5.1-6.2L12.8 18H17L11.2 8.8zm-1.8 2.2l-.6-.8L4 3.2h2l3.8 5.4.6.8L15.6 17h-2l-4.2-6z"/></svg>
+                </a>
+              </div>
+            </div>
+            <div className="mt-8 pt-6 border-t border-white/10 text-center">
+              <p className="text-sm text-white/30">{t.footer.copy}</p>
+            </div>
+          </div>
+        </footer>
+      );
+    }
+
+    /* =========================================================
+       APP
+       ========================================================= */
+    function App() {
+      const [lang, setLang] = useState('es');
+      const t = T[lang];
+
+      return (
+        <LangContext.Provider value={{ lang, setLang, t }}>
+          <Navbar />
+          <Hero />
+          <HowItWorks />
+          <WhatIsBuckets />
+          <Industries />
+          <Calculator />
+          <ResourceCenter />
+          <AISupport />
+          <RegistrationForm />
+          <Footer />
+        </LangContext.Provider>
+      );
+    }
+
+    /* =========================================================
+       RENDER
+       ========================================================= */
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
